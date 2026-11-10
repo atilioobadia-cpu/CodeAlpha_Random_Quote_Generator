@@ -1,17 +1,18 @@
 # Random Quote Generator
 
-A clean, mobile-first quote app built for CodeAlpha Day 01 Task 2. A quote appears on every app load, and **New Quote** picks a different quote each time.
+A clean, mobile-first quote app built for CodeAlpha Day 01 Task 2. It displays a quote as soon as it opens, flips to a new quote when requested, and includes browse and saved-quote navigation.
 
 ## Built with
 
 - HTML, CSS, and vanilla JavaScript
 - Nunito type with system font fallbacks
-- Teal design system; no shadows or gradients
+- CodeAlpha teal design system; no shadows or gradients
+- Local storage for saved quotes
 
 ## Files
 
 - `index.html` — app structure and styling
-- `app.js` — quote collection and random selection
+- `app.js` — quote data, filtering, navigation, and saved quotes
 
 ## Run
 

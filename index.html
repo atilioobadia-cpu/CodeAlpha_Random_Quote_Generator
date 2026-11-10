@@ -3,26 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#057573">
+  <meta name="theme-color" content="#ffffff">
   <title>Daily Quote</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--brand:#057573;--brand-dark:#045a58;--brand-soft:#e6f1f1;--brand-border:#b8d4d3;--bg:#ebe9e9;--surface:#fff;--text:#0f172a;--text-muted:#64748b;--danger:#dc2626;--danger-soft:#fef2f2;--radius-btn:14px;--radius-card:20px;--radius-input:12px;--radius-sheet:22px;--radius-icon:10px}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:'Nunito',system-ui,sans-serif;display:grid;place-items:center;padding:24px}
-    .app{width:min(100%,420px);min-height: min(760px,calc(100vh - 48px));background:var(--surface);border-radius:var(--radius-card);padding:28px 24px 24px;display:flex;flex-direction:column}
-    header{display:flex;align-items:center;gap:12px;padding-bottom:28px;border-bottom:1px solid #e2e8f0}.mark{width:42px;height:42px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center;color:var(--brand)}h1{font-size:19px;line-height:1.2;margin:0;font-weight:800} .eyebrow{margin:3px 0 0;color:var(--text-muted);font-size:13px}
-    main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:36px 0}.label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--brand);font-weight:800;margin:0 0 20px}.quote-mark{font-size:50px;line-height:.7;color:var(--brand-border);font-weight:800;margin-bottom:18px}.quote{font-size:clamp(25px,7vw,32px);line-height:1.35;font-weight:700;margin:0;letter-spacing:-.02em}.author-row{display:flex;align-items:center;gap:12px;margin-top:28px}.rule{height:2px;width:24px;background:var(--brand);border-radius:2px}.author{margin:0;color:var(--text-muted);font-size:15px;font-weight:700}.actions{display:grid;gap:12px}.button{width:100%;border:0;border-radius:var(--radius-btn);min-height:54px;background:var(--brand);color:white;font:800 16px 'Nunito',system-ui,sans-serif;cursor:pointer;transition:background .15s}.button:hover{background:var(--brand-dark)}.button:focus-visible{outline:3px solid var(--brand-border);outline-offset:3px}.hint{text-align:center;color:var(--text-muted);font-size:12px;margin:14px 0 0}
-    @media(max-width:480px){body{padding:0;background:var(--surface)}.app{min-height:100svh;border-radius:0;padding:24px 24px max(24px,env(safe-area-inset-bottom))}}
-    @media(prefers-reduced-motion:reduce){.button{transition:none}}
+    :root{--brand:#057573;--brand-dark:#045a58;--brand-soft:#e6f1f1;--brand-border:#b8d4d3;--bg:#f4f6f8;--surface:#fff;--text:#0f172a;--muted:#64748b;--danger:#dc2626;--line:#dce3e9;--radius:20px}
+    *{box-sizing:border-box}html,body{height:100%;margin:0}body{background:var(--bg);color:var(--text);font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    button,input{font:inherit}button{cursor:pointer}.app{width:min(100%,420px);height:100%;min-height:620px;margin:0 auto;background:var(--surface);display:flex;flex-direction:column;overflow:hidden}
+    .topbar{padding:24px 20px 16px;display:flex;align-items:center;justify-content:space-between}.greeting{margin:0;color:var(--muted);font-size:13px}.topbar h1{margin:1px 0 0;font-size:24px;line-height:1.25;font-weight:800;letter-spacing:-.03em}.profile{width:44px;height:44px;border:0;border-radius:15px;background:#dce2ff;color:#4053b6;display:grid;place-items:center}.profile svg,.search svg,.nav svg,.save-btn svg,.icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .search{height:50px;margin:0 20px 16px;padding:0 14px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:16px;color:var(--muted)}.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);font-size:14px}.search:focus-within{border-color:var(--brand);outline:3px solid var(--brand-soft)}
+    .chips{display:flex;gap:8px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--text);font-size:13px;font-weight:700}.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+    .views{position:relative;flex:1;min-height:0;overflow:hidden}.view{height:100%;overflow:auto;padding:0 20px 20px;display:none}.view.active{display:flex;flex-direction:column}.section-heading{display:flex;align-items:center;justify-content:space-between;margin:2px 0 12px}.section-heading h2{font-size:18px;margin:0;font-weight:800}.section-heading span{color:var(--brand);font-size:13px;font-weight:700}
+    .quote-panel{position:relative;min-height:310px;flex:1;background:var(--brand);border-radius:24px;padding:22px;color:white;display:flex;flex-direction:column;perspective:1000px;overflow:hidden}.quote-panel:after{content:"";position:absolute;right:-32px;top:-38px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}.panel-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}.panel-label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:#d7f1ee}.save-btn{width:40px;height:40px;border:0;border-radius:13px;background:rgba(255,255,255,.15);color:#fff;display:grid;place-items:center}.save-btn.saved{background:#fff;color:var(--brand)}.save-btn.saved svg{fill:currentColor}.quote-card{position:relative;z-index:1;flex:1;min-height:210px;transform-style:preserve-3d;transition:transform .62s cubic-bezier(.2,.75,.25,1);display:grid}.quote-card.flipped{transform:rotateY(180deg)}.quote-face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;padding:15px 0}.quote-back{transform:rotateY(180deg);align-items:center;text-align:center;color:white}.quote-back-mark{font-size:54px;line-height:1;color:#b8d4d3;font-weight:800}.quote-back p{font-size:16px;font-weight:700;margin:14px 0 0}.quote-front{align-items:flex-start}.quote-mark{font-size:46px;line-height:.65;color:#b8d4d3;font-weight:800;margin:10px 0 14px}.quote-text{font-size:clamp(24px,7vw,30px);line-height:1.32;font-weight:800;letter-spacing:-.025em;margin:0;overflow-wrap:anywhere}.author-row{display:flex;align-items:center;gap:10px;margin-top:22px;color:#e0f2f1}.author-rule{width:22px;height:2px;background:#c1e4e1;border-radius:2px}.author{font-size:14px;font-weight:700;margin:0}.panel-footer{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px}.panel-hint{font-size:12px;color:#d7f1ee;margin:0}.new-quote{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border:0;border-radius:14px;background:#fff;color:var(--brand-dark);font-size:14px;font-weight:800;white-space:nowrap}.new-quote:hover{background:#edf8f7}.new-quote svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.new-quote:focus-visible,.save-btn:focus-visible,.nav:focus-visible,.profile:focus-visible,.chip:focus-visible{outline:3px solid #9ed3cf;outline-offset:3px}
+    .view-note{color:var(--muted);font-size:13px;margin:0 0 14px}.quote-list{display:grid;gap:10px}.quote-row{width:100%;text-align:left;padding:15px;border:1px solid var(--line);border-radius:17px;background:#fff;color:var(--text)}.quote-row:hover{border-color:var(--brand-border);background:#fbfefe}.quote-row p{margin:0;font-size:15px;line-height:1.4;font-weight:700}.quote-row span{display:block;margin-top:8px;font-size:12px;color:var(--muted);font-weight:700}.empty{padding:36px 16px;text-align:center;color:var(--muted);font-size:14px;border:1px dashed var(--brand-border);border-radius:18px}.about-card{padding:20px;border:1px solid var(--line);border-radius:20px}.about-card h2{margin:0 0 8px;font-size:18px}.about-card p{margin:0;color:var(--muted);line-height:1.6;font-size:14px}
+    .bottom-nav{height:76px;flex:none;display:flex;align-items:center;justify-content:space-around;padding:6px 12px max(6px,env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:#fff}.nav{min-width:82px;min-height:58px;padding:6px 12px;border:0;border-radius:14px;background:transparent;color:var(--muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700}.nav.active{background:var(--brand-soft);color:var(--brand)}.nav svg{width:22px;height:22px}
+    @media(min-width:481px){body{padding:18px 0}.app{height:calc(100dvh - 36px);min-height:620px;border:1px solid var(--line);border-radius:28px}}
+    @media(max-height:720px){.topbar{padding-top:16px;padding-bottom:12px}.chips{padding-bottom:10px}.quote-panel{min-height:280px}.quote-card{min-height:180px}}
+    @media(prefers-reduced-motion:reduce){.quote-card{transition:none}.quote-card.flipped{transform:none}.quote-back{display:none}}
   </style>
 </head>
 <body>
   <div class="app">
-    <header><div class="mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3"/><path d="M8 12h8m-4-4v8"/></svg></div><div><h1>Daily Quote</h1><p class="eyebrow">A little perspective, whenever you need it.</p></div></header>
-    <main aria-live="polite" aria-atomic="true"><p class="label">A thought to carry with you</p><div class="quote-mark" aria-hidden="true">“</div><blockquote class="quote" id="quoteText"></blockquote><div class="author-row"><span class="rule" aria-hidden="true"></span><p class="author" id="quoteAuthor"></p></div></main>
-    <div class="actions"><button class="button" id="newQuote" type="button">New Quote</button></div><p class="hint">Take a moment. Find your next thought.</p>
+    <header class="topbar">
+      <div><p class="greeting">A little inspiration</p><h1>Daily Quote</h1></div>
+      <button class="profile" id="profileButton" type="button" aria-label="About Daily Quote"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></button>
+    </header>
+    <label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="searchInput" type="search" placeholder="Search quotes or authors..." aria-label="Search quotes"></label>
+    <div class="chips" aria-label="Quote categories">
+      <button class="chip active" type="button" data-category="All">All</button>
+      <button class="chip" type="button" data-category="Growth">Growth</button>
+      <button class="chip" type="button" data-category="Courage">Courage</button>
+      <button class="chip" type="button" data-category="Life">Life</button>
+      <button class="chip" type="button" data-category="Wisdom">Wisdom</button>
+    </div>
+    <main class="views" aria-live="polite">
+      <section class="view active" id="homeView" aria-label="Home">
+        <div class="section-heading"><h2>A thought to carry with you</h2><span id="quoteCount">Daily pick</span></div>
+        <article class="quote-panel">
+          <div class="panel-top"><span class="panel-label" id="quoteCategory">Daily inspiration</span><button class="save-btn" id="saveQuote" type="button" aria-label="Save quote"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg></button></div>
+          <div class="quote-card" id="quoteCard">
+            <div class="quote-face quote-front"><div class="quote-mark" aria-hidden="true">“</div><blockquote class="quote-text" id="quoteText"></blockquote><div class="author-row"><span class="author-rule" aria-hidden="true"></span><p class="author" id="quoteAuthor"></p></div></div>
+            <div class="quote-face quote-back" aria-hidden="true"><span class="quote-back-mark">“</span><p>A fresh thought is on its way</p></div>
+          </div>
+          <div class="panel-footer"><p class="panel-hint">Pause. Reflect. Begin again.</p><button class="new-quote" id="newQuote" type="button"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9a7 7 0 0 1 11.7-2L20 12M4 12l2.7 5a7 7 0 0 0 11.7-2"/></svg>New quote</button></div>
+        </article>
+      </section>
+      <section class="view" id="browseView" aria-label="Browse quotes"><div class="section-heading"><h2>Browse quotes</h2><span id="browseCount"></span></div><p class="view-note">Find a thought that fits your moment.</p><div class="quote-list" id="browseList"></div></section>
+      <section class="view" id="savedView" aria-label="Saved quotes"><div class="section-heading"><h2>Saved quotes</h2><span id="savedCount"></span></div><p class="view-note">Keep the words you want to return to.</p><div class="quote-list" id="savedList"></div></section>
+      <section class="view" id="aboutView" aria-label="About Daily Quote"><div class="about-card"><h2>A little perspective, every day</h2><p>Daily Quote brings together short thoughts on growth, courage, life and wisdom. Choose a category, save a favorite, or flip to a new quote whenever you need one.</p></div></section>
+    </main>
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav active" type="button" data-view="home"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="nav" type="button" data-view="browse"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Browse</button>
+      <button class="nav" type="button" data-view="saved"><svg viewBox="0 0 24 24"><path d="M6 3h12a2 2 0 0 1 2 2v16l-8-4-8 4V5a2 2 0 0 1 2-2Z"/></svg>Saved</button>
+    </nav>
   </div>
   <script src="app.js"></script>
 </body>
